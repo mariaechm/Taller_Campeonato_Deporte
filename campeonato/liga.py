@@ -1,4 +1,7 @@
-class Grupo:
+from partido import Partido
+from estadisticas import Estadisticas
+
+class Liga:
     def __init__(self, nombre):
         self.nombre = nombre
         self.equipos = []
