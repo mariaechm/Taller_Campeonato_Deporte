@@ -1,16 +1,18 @@
-from resultado import Resultado
-
 class Partido:
-    def __init__(self, equipo_a, equipo_b, fecha, hora, ubicacion):
-        self.equipo_a = equipo_a
-        self.equipo_b = equipo_b
+    def __init__(self, equipoA, equipoB, fecha, hora, ubicacion):
+        self.equipoA = equipoA
+        self.equipoB = equipoB
         self.fecha = fecha
         self.hora = hora
         self.ubicacion = ubicacion
         self.resultado = None
+        self.ganador = None
 
-    def jugar_partido(self, goles_a, goles_b):
-        self.resultado = Resultado(goles_a, goles_b)
-
-    def __str__(self):
-        return f"Partido: {self.equipo_a} vs {self.equipo_b} - Fecha: {self.fecha}, Hora: {self.hora}, Ubicación: {self.ubicacion}"
+    def registrarResultado(self, golesA, golesB):
+        self.resultado = (golesA, golesB)
+        if golesA > golesB:
+            self.ganador = self.equipoA
+        elif golesB > golesA:
+            self.ganador = self.equipoB
+        else:
+            self.ganador = 'Empate'

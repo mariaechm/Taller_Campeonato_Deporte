@@ -1,3 +1,0 @@
-class Campeonato:
-    pass
-    pass
