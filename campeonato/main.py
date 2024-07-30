@@ -18,4 +18,7 @@ def main():
     equipo_controller.agregar_equipo(datos_equipo)
 
     # Mostrar resultados y tabla de posiciones
-    output_view.mostrar
+    output_view.mostrar_resultados(campeonato_controller)
+
+if __name__ == "__main__":
+    main()
