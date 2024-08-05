@@ -1,7 +1,7 @@
 class Sancion:
     def __init__(self, jugador, tipo, partido, motivo):
         self.jugador = jugador
-        self.tipo = tipo 
+        self.tipo = tipo  # 'amarilla', 'roja', 'suspensión'
         self.partido = partido
         self.motivo = motivo
 
