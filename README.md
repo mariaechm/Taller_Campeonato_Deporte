@@ -246,6 +246,37 @@ Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jug
 El codigo se realizo en Py Charm  version 2024.1.1
   1. Clone el repositorio
      https://github.com/mariaechm/Taller_Campeonato_Deporte.git
-  2. 
+  2. Una vez clonado abre el archivo, abre el IDE Py Charm y abre la carpeta de "Taller_Campeonato_Deporte"
+     
+     ![image](https://github.com/user-attachments/assets/1700bc7f-e306-4ca3-93e8-7347dbca88c2)
+
+  3. Se ubica en la carpeta de "campeonato" y dentro de ella se ubica un archico main.py da clic en el.
+     
+     ![image](https://github.com/user-attachments/assets/3e48c10d-8a34-4f4e-b10e-e20649c1080d)
+
+     Se abrira el archivo y lo ejecuta
+     
+     ![image](https://github.com/user-attachments/assets/9b5220a0-58f2-4489-a85c-11b3067c1a64)
+
+     Una vez ejecutado ingresa los datos correctamente de acuerdo a las instrucciones.
+     
+     ![image](https://github.com/user-attachments/assets/0b796716-7692-4dcb-b939-38653966761f)
+
+     ![image](https://github.com/user-attachments/assets/5655feb7-8c3f-428c-a128-7a275c74715e)
+
+     ![image](https://github.com/user-attachments/assets/1d5e5078-9727-446b-907f-2821e1ccc243)
+
+     ![image](https://github.com/user-attachments/assets/93c790ca-0691-453e-8a67-18e3d48b90e6)
+
+
+
+
+
+
+
+     
+
+
+
 # Nombre:
  Maria Elizabeth Chuico Medina
