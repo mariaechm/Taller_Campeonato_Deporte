@@ -1,82 +1,128 @@
-from equipo import Equipo
-from jugador import Jugador
-from liga import Liga
-from torneo import Torneo
-from grupo import Grupo
-from partido import Partido
+from clases.arbitro import Arbitro
+from clases.sancion import Sancion
+from clases.temporada import Temporada
+from clases.calendario import Calendario
+from clases.estadio import Estadio
+from clases.jugador import Jugador
+from clases.equipo import Equipo
+from clases.partido import Partido
+from clases.campeonato import Campeonato
+from clases.inscripcion import Inscripcion
+from clases.estadisticas import Estadisticas
 
-def crear_jugador():
-    nombre = input("Nombre del jugador: ")
-    id = input("ID del jugador: ")
-    fecha_nacimiento = input("Fecha de nacimiento (YYYY-MM-DD): ")
-    sexo = input("Sexo (M/F): ").strip().lower() == 'm'
-    categoria = input("Categoría del jugador: ")
-    peso = float(input("Peso del jugador: "))
-    numero_camisa = int(input("Número de camisa: "))
-    return Jugador(nombre, id, fecha_nacimiento, sexo, categoria, peso, numero_camisa)
-
-def crear_equipo():
-    nombre_equipo = input("Nombre del equipo: ")
-    equipo = Equipo(nombre_equipo)
-    num_jugadores = int(input(f"¿Cuántos jugadores tiene {nombre_equipo}? "))
-    for _ in range(num_jugadores):
-        jugador = crear_jugador()
-        equipo.agregarJugador(jugador)
-    return equipo
-
-def seleccionar_tipo_campeonato():
-    print("Selecciona el tipo de campeonato:")
-    print("1. Liga")
-    print("2. Torneo")
-    print("3. Grupo")
-    opcion = int(input("Opción (1/2/3): "))
-    if opcion == 1:
-        return "liga"
-    elif opcion == 2:
-        return "torneo"
-    elif opcion == 3:
-        return "grupo"
-    else:
-        print("Opción no válida. Seleccionando 'Liga' por defecto.")
-        return "liga"
-
-def registrar_resultados(partidos):
-    resultados = []
-    for partido in partidos:
-        print(f"Partido: {partido.equipoA.nombre} vs {partido.equipoB.nombre}")
-        golesA = int(input(f"Goles de {partido.equipoA.nombre}: "))
-        golesB = int(input(f"Goles de {partido.equipoB.nombre}: "))
-        resultados.append((partido.equipoA, partido.equipoB, golesA, golesB))
-    return resultados
 
 def main():
-    num_equipos = int(input("¿Cuántos equipos van a participar? "))
-    equipos = []
-    for _ in range(num_equipos):
-        equipo = crear_equipo()
-        equipos.append(equipo)
+    temporada = Temporada(2024)
+    campeonato = Campeonato(1, "Campeonato Summer", "2024-08-01", "2024-09-01", "Liga")
+    temporada.agregarCampeonato(campeonato)
+    calendario = Calendario()
 
-    tipo_campeonato = seleccionar_tipo_campeonato()
-    nombre_campeonato = input("Nombre del campeonato: ")
+    # Inscripción
+    inscripcion = Inscripcion(campeonato)
+    inscripcion.inscribirEquipos()
 
-    if tipo_campeonato == "liga":
-        campeonato = Liga(nombre_campeonato)
-    elif tipo_campeonato == "torneo":
-        campeonato = Torneo(nombre_campeonato)
-    elif tipo_campeonato == "grupo":
-        campeonato = Grupo(nombre_campeonato)
+    # Creación de partidos y agregacion al calendario
+    num_partidos = int(input("\nNúmero de partidos: "))
+    for i in range(num_partidos):
+        print("\n ---------------------------------------------------")
+        id_partido = i + 1
 
-    for equipo in equipos:
-        campeonato.agregarEquipo(equipo)
+        while True:
+            try:
+                nombre_equipo_local = input(" •Nombre del equipo local: ")
+                equipo_local = next(equipo for equipo in campeonato.equipos if equipo.nombre == nombre_equipo_local)
+                break
+            except StopIteration:
+                print("Nombre de equipo local no válido. Inténtalo de nuevo.")
 
-    campeonato.programarPartidos()
-    resultados = registrar_resultados(campeonato.partidos)
-    campeonato.registrarResultados(resultados)
+        while True:
+            try:
+                nombre_equipo_visitante = input(" •Nombre del equipo visitante: ")
+                equipo_visitante = next(
+                    equipo for equipo in campeonato.equipos if equipo.nombre == nombre_equipo_visitante)
+                break
+            except StopIteration:
+                print("Nombre de equipo visitante no válido. Inténtalo de nuevo.")
 
-    clasificacion = campeonato.calcularClasificacion()
-    print("\nClasificación final:")
-    for estadisticas in clasificacion:
-        print(f"Equipo: {estadisticas.equipo.nombre}, Puntos: {estadisticas.puntos}")
+        fecha = input(" Fecha del partido (YYYY-MM-DD): ")
+        estadio = Estadio(i + 1, input(" Nombre del estadio: "), input("Ubicación del estadio: "),
+                          int(input(" Capacidad del estadio: ")))
+        arbitro = Arbitro(i + 1, input(" Nombre del Arbitro: "), input("Nacionalidad del árbitro: "))
+
+        partido = Partido(id_partido, equipo_local, equipo_visitante, fecha, estadio, arbitro)
+        calendario.agregarPartido(partido)
+        campeonato.organizarPartido(partido)
+
+    # Jugar los partidos
+    for partido in calendario.partidos:
+        print("\n---------------------------------------------------")
+        print(
+            f"Jugar partido {partido.id_partido}: '{partido.equipo_local.nombre}' vs '{partido.equipo_visitante.nombre}'")
+        goles_local = int(input(f"Goles de '{partido.equipo_local.nombre}': "))
+        goles_visitante = int(input(f"Goles de '{partido.equipo_visitante.nombre}': "))
+        print("---------------------------------------------------")
+
+        goleadores_local = []
+        for i in range(goles_local):
+            while True:
+                try:
+                    num_camiseta = int(
+                        input(f" Número de camiseta del goleador {i + 1} de '{partido.equipo_local.nombre}': "))
+                    goleador = next(jugador for jugador in partido.equipo_local.jugadores if
+                                    jugador.numero_camiseta == num_camiseta)
+                    goleadores_local.append(goleador)
+                    break
+                except StopIteration:
+                    print("Número de camiseta no válido. Inténtalo de nuevo.")
+                    print("---------------------------------------------------")
+
+        goleadores_visitante = []
+        for i in range(goles_visitante):
+            while True:
+                try:
+                    num_camiseta = int(
+                        input(f"Número de camiseta del goleador {i + 1} de '{partido.equipo_visitante.nombre}': "))
+                    goleador = next(jugador for jugador in partido.equipo_visitante.jugadores if
+                                    jugador.numero_camiseta == num_camiseta)
+                    goleadores_visitante.append(goleador)
+                    break
+                except StopIteration:
+                    print("Número de camiseta no válido. Inténtalo de nuevo.")
+
+        partido.jugarPartido(goles_local, goles_visitante, goleadores_local, goleadores_visitante)
+        print("---------------------------------------------------")
+
+        # Añadir sanciones
+        num_sanciones = int(input("Número de sanciones en este partido: "))
+        for s in range(num_sanciones):
+            while True:
+                try:
+                    num_camiseta = int(input(" Número de camiseta del jugador sancionado: "))
+                    jugador = next(jugador for jugador in partido.equipo_local.jugadores if
+                                   jugador.numero_camiseta == num_camiseta)
+                    break
+                except StopIteration:
+                    print("Número de camiseta no válido. Inténtalo de nuevo.")
+
+            tipo = input(" Tipo de sanción (amarilla/roja/suspensión): ")
+            motivo = input(" Motivo de la sanción: ")
+            sancion = Sancion(jugador, tipo, partido, motivo)
+            partido.agregarSancion(sancion)
+
+    # Imprimir los resultados y estadísticas
+    print("\n---------------------------------------------------")
+    print("\nResultados de los partidos:")
+    print("\n---------------------------------------------------")
+    for partido in calendario.partidos:
+        print(partido.getResultado())
+
+    estadisticas = Estadisticas(campeonato)
+    estadisticas.mostrarEstadisticasEquipos()
+    estadisticas.mostrarEstadisticasIndividuales()
+
+    print("\nCampeón del campeonato 🏆:")
+    print(campeonato.getCampeon())
+
 
 if __name__ == "__main__":
     main()
