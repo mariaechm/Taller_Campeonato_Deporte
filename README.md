@@ -1,7 +1,7 @@
 # Taller_Campeonato_Deporte
 
-# Descripcion
-Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jugadores asi tambien muestra sus estadisticas y realiza inscripciones a campeonatos. Esta actividad se encuentra en un diagrama de clases UML e implementado en codigo en el lenguajae de programacion Python.
+Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jugadores asi tambien muestra sus estadísticas y realiza inscripciones a campeonatos. Esta actividad se encuentra en un diagrama de clases UML e implementado en codigo en el lenguajae de programación Python.
+# Descripción
   # Diagrama de Clases
   ![CampeonatoDeFutbol](https://github.com/user-attachments/assets/81a4efbb-8f69-4eb1-9f03-fc45c0714933)
 
@@ -14,7 +14,7 @@ Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jug
      - nacionalidad: String (privado) -> Nacionalidad del árbitro.
 
      ► Métodos:
-     + obtenerInformacion(): String (público) -> Devuelve un string (cadena de caracteres) con la informacion registrada del árbitro.
+     + obtenerInformacion(): String (público) -> Devuelve un string (cadena de caracteres) con la información registrada del árbitro.
 
      ► Implementacion en codigo
      
@@ -28,7 +28,7 @@ Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jug
      ► Métodos:
      + agregarPartido(partido: Partido) (público) -> Añade un partido a la lista.
      + partidosPorFecha(fecha: Date): List<Partido> (público) -> Devuelve una lista de partidos para una fecha determinada.
-     + obtenerInformacion(): String (público) -> Devuelve un string con la informacion de calendario.
+     + obtenerInformacion(): String (público) -> Devuelve un string con la información de calendario.
   
      ► Implementacion en codigo
 
@@ -188,6 +188,64 @@ Permite gestionar un campeonato de Futbol en cual permite registrar equipos, jug
 
    ![image](https://github.com/user-attachments/assets/8cc75dde-72bc-46f5-b35a-688640f18921)
 
-     
+# Relaciones entre Clases
+ 
+ * Calendario "1" --> "*" Partido (Asosiacion)
+  - Multiplicidad -> Un calendario puede contener varios partidos (1 a muchos).
+  - Un calendario gestiona y organiza los partidos que se llevarán a cabo, llevando el control de las fechas  de los partidos.
+
+ * Campeonato "1" o-- "*" Equipo (Agregacion)
+  - Multiplicidad -> Un campeonato puede contener varios equipos (1 a muchos).
+  - Un campeonato organiza y gestiona la participación de diferentes equipos que competirán entre sí.
+
+* Campeonato "1" o-- "*" Partido (Agregacion)
+  - Multiplicidad -> Un campeonato puede organizar varios partidos (1 a muchos).
+  - Un campeonato crea como esta estructurado los partidos que se jugarán como parte de la competencia.
+
+* Equipo "1" o-- "*" Jugador (Agregacion)
+  - Multiplicidad -> Un equipo puede tener varios jugadores (1 a muchos).
+  - Un equipo está conformado por varios jugadores que participan en los partidos y esto a su vez a las metas del equipo.
+
+* Partido "*" --> "1" Estadio (Asosiacion)
+  - Multiplicidad -> Multiples partidos se juegan en un estadio (muchos a 1).
+  - Los partidos necesitan un lugar  para llevarse a cabo, y este es el estadio, por lo que varios partidos pueden llevarse a cabo en el mismo estadio en diferentes horarios.
+
+* Partido "*" --> "1" Arbitro (Asosiacion)
+  - Multiplicidad -> Multiples partidos son dirigidos por un árbitro (muchos a 1).
+  - Un árbitro es muy importante para dirigir y mantener el orden en los partidos,por lo que un mismo árbitro puede dirigir varios partidos.
+
+* Partido "1" *◆-- "*" Sancion (Composicion)
+  - Multiplicidad -> Un partido contiene varias sanciones (1 a muchos).
+  - Las sanciones registradas en un partido muestran las faltas o infracciones cometidas por los jugadores durante el partido.
+
+* Sancion "*" --> "1" Jugador (Asosiacion)
+  - Multiplicidad -> Multiples sanciones pueden ser para un jugador (muchos a 1).
+  - Las sanciones se aplican a los jugadores que cometen infracciones durante los partidos.
+
+* Sancion "*" --> "1" Partido (Asosiacion)
+  - Multiplicidad -> Multiples sanciones pueden ocurrir en un partido (muchos a 1).
+  - Las sanciones estan asociadas a los partidos en los que ocurrieron las infracciones.
+
+* Temporada "1" o-- "*" Campeonato (Agregacion)
+  - Multiplicidad -> Una temporada puede contener varios campeonatos (1 a muchos).
+  - Una temporada agrupa varios campeonatos que se llevan a cabo en un determinado periodo.
+
+* Estadisticas --> Campeonato (Dependencia)
+  - Multiplicidad -> Estadísticas dependen de un campeonato.
+  - La generación de estadísticas se basa en los datos recopilados durante un campeonato.
+
+* Inscripcion --> Campeonato (Dependencia)
+  - Multiplicidad -> Inscripción depende de un campeonato.
+  - La inscripción de equipos y jugadores se realiza en un de un campeonato determinado.
+
+* Inscripcion --> Equipo (Dependencia)
+- Multiplicidad -> Inscripción depende de un equipo.
+- La inscripción de equipos se lleva a cabo para que puedan participar en un campeonato determinado.
+  
+# Ejecucion
+El codigo se realizo en Py Charm  version 2024.1.1
+  1. Clone el repositorio
+     https://github.com/mariaechm/Taller_Campeonato_Deporte.git
+  2. 
 # Nombre:
  Maria Elizabeth Chuico Medina
